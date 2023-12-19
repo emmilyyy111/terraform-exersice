@@ -62,6 +62,9 @@ module "blog_alb" {
   instance_type = var.instance_type
 }
 
+ tags = {
+    Environment = "dev"
+  }
 
   target_groups = [
     {
@@ -73,11 +76,6 @@ module "blog_alb" {
     }
   ]
   
-
-  tags = {
-    Environment = "dev"
-  }
-}
 
 module "blog_sg" {
   source  = "terraform-aws-modules/security-group/aws"
