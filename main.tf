@@ -60,22 +60,7 @@ module "blog_alb" {
 
   image_id      = data.aws_ami.app_ami.id
   instance_type = var.instance_type
-}
-
- tags = {
-    Environment = "dev"
-  }
-
-  target_groups = [
-    {
-      name_prefix      = "blog-"
-      backend_protocol = "HTTP"
-      backend_port     = 80
-      target_type      = "instance"
-      target_id = aws_instance.blog.id
-    }
-  ]
-  
+} 
 
 module "blog_sg" {
   source  = "terraform-aws-modules/security-group/aws"
@@ -88,3 +73,18 @@ module "blog_sg" {
   egress_rules = ["all-all"]
   egress_cidr_blocks = ["0.0.0.0/0"]
 }
+
+
+  target_groups = [
+    {
+      name_prefix      = "blog-"
+      backend_protocol = "HTTP"
+      backend_port     = 80
+      target_type      = "instance"
+      target_id = aws_instance.blog.id
+    }
+  ]
+
+ tags = {
+    Environment = "dev"
+  }
