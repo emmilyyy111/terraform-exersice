@@ -48,24 +48,16 @@ module "autoscaling" {
 }
 
 module "blog_alb" {
-  source = "terraform-aws-modules/alb/aws"
+  source  = "terraform-aws-modules/alb/aws"
+  version = "~> 6.0"
 
-  name    = "blog-alb"
+  name = "blog-alb"
 
   load_balancer_type = "application"
 
-  vpc_id  = module.blog-vpc.vpc_id
-  subnets = module.blog-vpc.public_subnets
-  security_groups = [module.blog_sg.security_group_id]
-
-  image_id      = data.aws_ami.app_ami.id
-  instance_type = var.instance_type
-}
-
- tags = {
-    Environment = "dev"
-  }
-
+  vpc_id             = module.blog_vpc.vpc_id
+  subnets            = module.blog_vpc.public_subnets
+  security_groups    = [module.blog_sg.security_group_id]
 
   target_groups = [
     {
@@ -75,6 +67,20 @@ module "blog_alb" {
       target_type      = "instance"
     }
   ]
+
+  http_tcp_listeners = [
+    {
+      port               = 80
+      protocol           = "HTTP"
+      target_group_index = 0
+    }
+  ]
+
+  tags = {
+    Environment = "dev"
+  }
+}
+
   
 
 module "blog_sg" {
