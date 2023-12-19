@@ -59,7 +59,7 @@ module "alb" {
   subnets = module.blog-vpc.public_subnets
   security_groups = [module.blog_sg.security_group_id]
 
-  target_groups = 
+  target_groups = [
     {
       name_prefix      = "blog-"
       backend_protocol = "HTTP"
@@ -67,7 +67,7 @@ module "alb" {
       target_type      = "instance"
       target_id = aws_instance.blog.id
     }
-      
+  ]
   
 
   tags = {
