@@ -42,7 +42,7 @@ module "autoscaling" {
   min_size = 1
   max_size = 2
 
-  vpc_zone_identifier = module.blog_vpc.public_subnets
+  vpc_zone_identifier = module.blog-vpc.public_subnets
   target_group_arns   = module.blog_alb.target_group_arns
   security_groups = [module.blog_sg.security_group_id]
 }
@@ -55,8 +55,8 @@ module "blog_alb" {
 
   load_balancer_type = "application"
 
-  vpc_id             = module.blog_vpc.vpc_id
-  subnets            = module.blog_vpc.public_subnets
+  vpc_id             = module.blog-vpc.vpc_id
+  subnets            = module.blog-vpc.public_subnets
   security_groups    = [module.blog_sg.security_group_id]
 
   target_groups = [
